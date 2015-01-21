@@ -1,0 +1,11 @@
+{
+  "generator-angular-famous-ionic": {
+    "appname": "famous-calendar",
+    "clientFolder": "www",
+    "ionic": false,
+    "famous": true,
+    "ngCordova": true,
+    "fontawesome": true,
+    "bootstrap": false
+  }
+}
