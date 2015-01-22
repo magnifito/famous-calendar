@@ -152,9 +152,8 @@ span[data-cal-date] {
   background-color: #47639E;
   color: #fff; }
 .cal-month-day {
-    height:70px;
-    width:100%;
-border:1px solid grey;
+    height:50px;
+    border:1px solid grey;
     
     
  ;}
@@ -173,7 +172,7 @@ span[data-cal-date] {
   font-size: 20px; }
 
 .cal-day-outmonth {
-      height:70px;
+      height:50px;
     background-color: skyblue;
     color:white;
     }
@@ -214,9 +213,9 @@ span[data-cal-date] {
     outline: none;
 }
 .right {
-    float:right;
     color:black;
     width:100%;
+    float:right;
 }
 .icon-container {
   display: block;
@@ -226,6 +225,10 @@ padding-left:5px;}
 .event-container {
   
   font-size: 1.2em; }
+.event-container .fa-times {
+    float:right;
+    padding:5px;
+}
   .event-container .event-date {
     text-align: center;
     display: block; }

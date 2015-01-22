@@ -18,12 +18,11 @@
 </fa-view>
 <!-- Week day names render -->
 <fa-view>
-    <fa-grid-layout fa-options="{dimensions: [8,1]}">
-        <fa-modifier fa-size="[undefined, 150]" fa-translate="[2, 65,121]" ng-repeat="name in names" fa-align="[0.5, 0]">
+    <fa-grid-layout fa-options="{dimensions: [7,1]}">
+        <fa-modifier fa-size="[undefined, 150]" fa-translate="[0, 65,120]" ng-repeat="name in names" fa-align="[0.4, 0]">
 
-            <fa-surface fa-background-color="'white'" fa-size="[undefined, 40]" fa-align="[0.5, 0.5]">
-                <div class="text-center-40 right">
-                    {{name}}
+            <fa-surface fa-background-color="'white'" fa-size="[undefined, undefined]" fa-align="[0.5, 0.5]">
+                <div class="text-center-40 right" ng-bind="name">                
                 </div>
             </fa-surface>
         </fa-modifier>
@@ -31,16 +30,16 @@
 </fa-view>
 <!-- CALENDAR GRID RENDER -->
 <fa-view>
-        <fa-grid-layout fa-options="{dimensions: [1,8]}">
-            <fa-view ng-repeat="week in month">
-                <fa-grid-layout fa-options="{dimensions: [8,1]}">
-                    <fa-modifier ng-repeat="day in week" fa-translate="[0, 80, 120]" fa-align="[0.5, 0.5]">
+        <fa-grid-layout fa-options="{dimensions: [1,9]}">
+            <fa-view ng-repeat="week in month ">
+                <fa-grid-layout fa-options="{dimensions: [7,7]}">
+                    <fa-modifier ng-repeat="day in week" fa-translate="[0, 110, 120]" >
                         <fa-surface fa-background-color="'white'" fa-size="[undefined, undefined]">
-                            <div class="cal-month-day" ng-click="showPopup(day)" ng-class="{'cal-day-outmonth' : day.outmonth , 'cal-day-weekend' : day.day == 6 || day.day == 7 , 'cal-day-today' : day.isToday} ">
+                            <div class="cal-month-day" ng-click="showPopup(day)" ng-class="otherDays(day)">
                                 <div class="icon-container" ng-repeat="event in day.events">
                                     <i ng-class="iconFunction(event.eventType)"></i>
                                 </div>
-                                <span >{{day.date}}</span>
+                                <span data-cal-date="{{day.dateFormatted}}">{{day.date}}</span>
                             </div>
                         </fa-surface>
                     </fa-modifier>

@@ -37,11 +37,6 @@ module.exports = function(app) {
             }
 
         })
-
-        modal.on('click', function() {
-            hideModal()
-        });
-
         modal.lightbox = new Lightbox({
             inTransform: Transform.translate(0, 500, 0),
             outTransform: Transform.translate(0, 500, 0),
@@ -59,7 +54,7 @@ module.exports = function(app) {
             origin: [0.5, 0.5]
         })).add(modal.lightbox);
 
-        function hideModal() {
+        $scope.closeModal = function () {
             modal.lightbox.hide();
         }
 
@@ -69,6 +64,8 @@ module.exports = function(app) {
             if (day.events.length > 0) {
 
                 modal.lightbox.show(modal);
+            } else {
+                modal.lightbox.hide();
             }
             var factory = angular.element('<div></div>');
             factory.html(require('./event-template.html'));

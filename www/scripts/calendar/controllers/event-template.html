@@ -1,5 +1,7 @@
 <div class="event-container" ng-repeat="event in selectedDayEvents track by $index">
+
     <i ng-class="iconFunction(event.eventType)"></i>
+    <i class="fa fa-times" ng-click="closeModal()"></i>
     <span class="event-title">{{event.title}}</span>
     <span class="event-date">{{event.start}}</span>
     <span class="event-description">{{event.description}}</span>

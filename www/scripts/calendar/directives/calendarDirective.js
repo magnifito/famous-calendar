@@ -70,18 +70,23 @@ module.exports = function(app) {
 
         scope.navigate.prevMotnth = function() {
             scope.currentDate.setMonth(scope.currentDate.getMonth() - 1);
-            refreshCalendar();
+            scope.$watch('events', function (newValue, oldValue) {
+            if (newValue) {
+                refreshCalendar(newValue);
+            }
+        }, true);
 
         }
         scope.navigate.nextMotnth = function() {
             scope.currentDate.setMonth(scope.currentDate.getMonth() + 1);
-            refreshCalendar();
+            scope.$watch('events', function (newValue, oldValue) {
+            if (newValue) {
+                refreshCalendar(newValue);
+            }
+        }, true);
 
         }
-        scope.navigate.thisMotnth = function() {
-            scope.currentDate = new Date();
-            refreshCalendar();
-        }
+
 
         // month between 1 ~ 12
         var getDateContent = function(year, month, date) {

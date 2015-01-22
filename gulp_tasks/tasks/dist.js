@@ -74,7 +74,7 @@ var taskJSON = function(constants) {
 	gulp.src(constants.json.src, {
 			base: constants.clientFolder
 		})
-		.pipe(gulp.dest(constants.dist.distFolder));
+		.pipe(gulp.dest(constants.dist.distFolder + '/www'));
 };
 
 var taskImageCordova = function(constants) {
@@ -95,6 +95,7 @@ var taskImageCordova = function(constants) {
         }
     }
 };
+
 
 gulp.task('html', false, function() {
     var taskname = 'html';
@@ -119,9 +120,9 @@ gulp.task('html:watch', false, function() {
     gmux.createAndRunTasks(gulp, taskHtmlWatch, taskname, global.options.target, global.options.mode, constants);
 });
 
-gulp.task('json', function() {
+gulp.task('json' , false, ['json:cordova'], function() {
 	var taskname = 'json';
-	gmux.targets.setClientFolder(constants.clientFolder);
+	gmux.targets.setClientFolder(constants.dist.distFolder);
 	if (global.options === null) {
 		global.options = gmux.targets.askForMultipleTargets(taskname);
 	}
@@ -154,6 +155,16 @@ gulp.task('image', false, ['image:cordova'], function() {
 gulp.task('image:cordova', false, function() {
     // this task copy the cordova icons and splashes to dist, but only if the platforms exist
     var taskname = 'image:cordova';
+    gmux.targets.setClientFolder(constants.clientFolder);
+    if(global.options === null) {
+        global.options = gmux.targets.askForMultipleTargets(taskname);
+    }
+    return gmux.createAndRunTasks(gulp, taskImageCordova, taskname, global.options.target, global.options.mode, constants);
+});
+
+gulp.task('json:cordova', false, function() {
+    // this task copy the cordova icons and splashes to dist, but only if the platforms exist
+    var taskname = 'json:cordova';
     gmux.targets.setClientFolder(constants.clientFolder);
     if(global.options === null) {
         global.options = gmux.targets.askForMultipleTargets(taskname);
