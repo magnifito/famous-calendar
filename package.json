@@ -97,7 +97,8 @@
     "famous": "./bower_components/famous/dist/famous-global.js",
     "famous-angular": "./bower_components/famous-angular/dist/famous-angular.js",
     "ngCordova": "./bower_components/ngCordova/dist/ng-cordova.js",
-    "ngCordovaMocks": "./bower_components/ngCordova/dist/ng-cordova-mocks.js"
+    "ngCordovaMocks": "./bower_components/ngCordova/dist/ng-cordova-mocks.js",
+    "sugarjs": "./bower_components/sugarjs/release/sugar.min.js"
   },
   "browserify": {
     "transform": [

@@ -2,6 +2,7 @@
 require('angular-ui-router');
 require('famous-angular');
 require('ngCordova');
+require('sugarjs');
 
 var modulename = 'calendar';
 
@@ -15,7 +16,7 @@ module.exports = function(namespace) {
     require('./controllers')(app);
         require('./directives')(app);
         require('./services')(app);
-    
+
     // inject:folders end
 
     app.config(['$stateProvider', '$urlRouterProvider',
