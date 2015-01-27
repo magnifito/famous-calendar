@@ -39,21 +39,27 @@ module.exports = function(app) {
                     disabled: isOutsideMonth === true
                 });
             };
-
+        
+            var currentDay = $scope.currentDate.getDay();
             //get the last N days of last month for the week
-            ($scope.currentDate.getDay()).downto(1, function(i) {
+           
+            currentDay.downto(1, function(i) {
                 addItem(-i, true);
             });
             //get all 28/30/31 days in the month
             (0).upto(daysInMonth, function(i) {
+                
                 addItem(i);
+
             });
             //get the remaining/possible days left in the week for next month
-            (0).upto(7 - $scope.currentDate.endOfMonth().getDay(), function(i) {
-                addItem($scope.currentDate.daysInMonth() + i, true);
-            });
+            var endOfMonthDay = $scope.currentDate.endOfMonth().getDay() ;
+            var daysInMonthTwo = $scope.currentDate.daysInMonth() ;
             
-            return dates.inGroupsOf(7); //make them groups for the weeks
+            (0).upto(5 - endOfMonthDay, function(i) {
+                addItem(daysInMonthTwo +  i, true);
+            });
+            return dates;//.inGroupsOf(7); //make them groups for the weeks
         };
 
         /**

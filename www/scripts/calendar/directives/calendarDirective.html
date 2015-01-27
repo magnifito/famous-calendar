@@ -18,18 +18,14 @@
 
 <!-- CALENDAR GRID RENDER -->
 <fa-view>
-    <fa-grid-layout fa-options="{dimensions: [1,7]}">
-        <fa-view ng-repeat="week in dates ">
-            <fa-grid-layout fa-options="{dimensions: [7,7]}">
-                <fa-modifier ng-repeat="item in week track by $id(item)" fa-translate="[0, 110, 120]">
+    <fa-grid-layout fa-options="{dimensions: [7,5]}">
+                <fa-modifier ng-repeat="item in dates" fa-translate="[0, 110, 120]">
                     <fa-surface fa-background-color="'white'" fa-size="[undefined, undefined]">
-                        <div class="cal-month-day" data-ng-class="{disabled:item.disabled, today:item.date.isToday()}">
-                            <span class="date">{{item.date.getDate()}}</span>
+                        <div class="cal-month-day" data-ng-class="{disabled:item.disabled, today:item.date.isToday()}" data-ng-click="selectDate(item.date)">
+                            <span class="date" ng-bind="item.date.getDate()"></span>
                         </div>
                     </fa-surface>
                 </fa-modifier>
-            </fa-grid-layout>
-        </fa-view>
     </fa-grid-layout>
 </fa-view>
 
