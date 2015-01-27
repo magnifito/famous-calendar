@@ -14,8 +14,8 @@ module.exports = function(namespace) {
     var app = angular.module(fullname, ['ui.router', 'famous.angular', 'ngCordova']);
     // inject:folders start
     require('./controllers')(app);
-        require('./directives')(app);
-        require('./services')(app);
+    require('./directives')(app);
+    require('./services')(app);
 
     // inject:folders end
 
@@ -26,11 +26,10 @@ module.exports = function(namespace) {
                 url: '/',
                 template: require('./views/home.html'),
                 controller: fullname + '.calendarController',
-                controllerAs: 'vm'
+                controllerAs: 'self'
             });
         }
     ]);
-
-
+    
     return app;
 };
