@@ -9,8 +9,8 @@ module.exports = function(app) {
         return {
             restrict: 'AE',
             scope: {
-
-                events: '@'
+                events: '@',
+                names: '@'
             },
             controller: app.name + '.calendarController',
             controllerAs: 'calCtrl',

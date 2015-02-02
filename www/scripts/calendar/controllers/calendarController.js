@@ -17,7 +17,7 @@ module.exports = function (app) {
 		//all available dates for the calendar to render
 		$scope.dates = null;
 		//the current calendar date
-		$scope.currentDate = Date.create("the beginning of this month");
+		$scope.currentDate = Date.create("beginning of month");
 
 		//	PRIVATE METHODS
 		/**
@@ -40,36 +40,41 @@ module.exports = function (app) {
 			};
 
 			var currentDay = $scope.currentDate.getDay();
-			console.log("--------- 1");
+
 			//get the last N days of last month for the week
-			currentDay.downto(1, function (i) {
+			var downTo = 1;
+			if(currentDay == 0){
+				currentDay = 6;
+			} else {
+				currentDay -= 1;
+			}
+			currentDay.downto(downTo, function (i) {
 				addItem(-i, true);
 			});
-			console.log(printDates(dates));
 
-			console.log("--------- 2");
 			//get all 28/30/31 days in the month
 			(0).upto(daysInMonth, function (i) {
 				addItem(i);
 			});
-			console.log(printDates(dates));
 
-			console.log("--------- 3");
+			var cellsCount = 6*7;//rows*columns
+
 			//get the remaining/possible days left in the week for next month
-			var endOfMonthDay = $scope.currentDate.endOfMonth().getDay();
-			var daysInMonthTwo = $scope.currentDate.daysInMonth();
-			(0).upto(5 - endOfMonthDay, function (i) {
-				addItem(daysInMonthTwo + i, true);
-			});
-			console.log(printDates(dates));
+			var daysCountInMonth = $scope.currentDate.daysInMonth();
+			var upTo = cellsCount - dates.length;
 
-			return dates; //.inGroupsOf(7); //make them groups for the weeks
+			(0).upto(upTo, function (i) {
+				addItem(daysCountInMonth + i, true);
+			});
+
+			return dates;
 		};
 
 		function printDates(dates) {
 			var datesStr = "";
 			for (var i = 0; i < dates.length; i++) {
-				datesStr += " " + i + ":" + dates[i].date.getDate();
+				var date = dates[i].date.getDate();
+				datesStr += " " + i + ":" + date;
 			}
 			return datesStr;
 		}
@@ -118,104 +123,104 @@ module.exports = function (app) {
 		 * Using the module pattern but nothing to return here
 		 */
 
-		return {};
-		//        var Transitionable = $famous['famous/transitions/Transitionable'];
-		//        var Easing = $famous['famous/transitions/Easing'];
-		//        var Modifier = $famous["famous/core/Modifier"];
-		//        var Lightbox = $famous['famous/views/Lightbox'];
-		//        var Engine = $famous['famous/core/Engine'];
-		//        var Surface = $famous['famous/core/Surface'];
-		//        var Transform = $famous['famous/core/Transform'];
-		//        var FastClick = $famous['famous/inputs/FastClick'];
-		//        // popup options
+		//return {};
+		var Transitionable = $famous['famous/transitions/Transitionable'];
+		var Easing = $famous['famous/transitions/Easing'];
+		var Modifier = $famous["famous/core/Modifier"];
+		var Lightbox = $famous['famous/views/Lightbox'];
+		var Engine = $famous['famous/core/Engine'];
+		var Surface = $famous['famous/core/Surface'];
+		var Transform = $famous['famous/core/Transform'];
+		var FastClick = $famous['famous/inputs/FastClick'];
+		// popup options
+
+		$scope.otherDays = function (day) {
+			if (day.outmonth) {
+				return 'cal-day-outmonth';
+			} else if (day.day == 6 || day.day == 7) {
+				return 'cal-day-weekend';
+			} else if (day.isToday) {
+				return 'cal-day-today';
+			}
+		}
+
+		var context = Engine.createContext();
+		var modal = new Surface({
+			size: [300, 300],
+			properties: {
+				backgroundColor: 'skyblue',
+				color: 'black',
+			}
+
+		})
+		modal.lightbox = new Lightbox({
+			inTransform: Transform.translate(0, 500, 0),
+			outTransform: Transform.translate(0, 500, 0),
+			inTransition: {
+				duration: 500,
+				curve: Easing.outElastic
+			},
+			outTransition: {
+				duration: 200,
+				curve: Easing.inOutQuad
+			},
+		});
+
+		context.add(new Modifier({
+			origin: [0.5, 0.5]
+		})).add(modal.lightbox);
+
+		$scope.closeModal = function () {
+			modal.lightbox.hide();
+		}
+
 		//
-		//        $scope.otherDays = function(day) {
-		//            if (day.outmonth) {
-		//                return 'cal-day-outmonth';
-		//            } else if (day.day == 6 || day.day == 7) {
-		//                return 'cal-day-weekend';
-		//            } else if(day.isToday) {
-		//                return 'cal-day-today';
-		//            }
-		//        }
-		//
-		//        var context = Engine.createContext();
-		//        var modal = new Surface({
-		//            size: [300, 300],
-		//            properties: {
-		//                backgroundColor: 'skyblue',
-		//                color: 'black',
-		//            }
-		//
-		//        })
-		//        modal.lightbox = new Lightbox({
-		//            inTransform: Transform.translate(0, 500, 0),
-		//            outTransform: Transform.translate(0, 500, 0),
-		//            inTransition: {
-		//                duration: 500,
-		//                curve: Easing.outElastic
-		//            },
-		//            outTransition: {
-		//                duration: 200,
-		//                curve: Easing.inOutQuad
-		//            },
-		//        });
-		//
-		//        context.add(new Modifier({
-		//            origin: [0.5, 0.5]
-		//        })).add(modal.lightbox);
-		//
-		//        $scope.closeModal = function () {
-		//            modal.lightbox.hide();
-		//        }
-		//
-		//        //
-		//        $scope.showPopup = function(day) {
-		//
-		//            if (day.events.length > 0) {
-		//
-		//                modal.lightbox.show(modal);
-		//            } else {
-		//                modal.lightbox.hide();
-		//            }
-		//            var factory = angular.element('<div></div>');
-		//            factory.html(require('./event-template.html'));
-		//            $compile(factory)($scope);
-		//
-		//            $timeout(function() {
-		//                $scope.compiled = factory.html();
-		//                modal.setContent($scope.compiled);
-		//            });
-		//            $scope.selectedDayEvents = day.events;
-		//
-		//        }
-		//        $scope.names = {
-		//            d0: 'Mon',
-		//            d1: 'Tue',
-		//            d2: 'Wed',
-		//            d3: 'Thu',
-		//            d4: 'Fri',
-		//            d5: 'Sat',
-		//            d6: 'Sun',
-		//        };
-		//        //Event options
-		//        var eventTypes = {
-		//            "special-event": "fa-birthday-cake",
-		//            "anch": "fa-anchor"
-		//        }
-		//
-		//        $scope.iconFunction = function(type) {
-		//            if (eventTypes[type]) {
-		//                return "fa " + eventTypes[type];
-		//            } else {
-		//                return "fa fa-anchor";
-		//            }
-		//        }
-		//
-		//
-		//        calendarService.getEvents().then(function(events) {
-		//            $scope.events = events;
-		//        });
+		$scope.showPopup = function (day) {
+
+			if (day.events.length > 0) {
+
+				modal.lightbox.show(modal);
+			} else {
+				modal.lightbox.hide();
+			}
+			var factory = angular.element('<div></div>');
+			factory.html(require('./event-template.html'));
+			$compile(factory)($scope);
+
+			$timeout(function () {
+				$scope.compiled = factory.html();
+				modal.setContent($scope.compiled);
+			});
+			$scope.selectedDayEvents = day.events;
+
+		}
+		$scope.names = {
+			d0: 'Mon',
+			d1: 'Tue',
+			d2: 'Wed',
+			d3: 'Thu',
+			d4: 'Fri',
+			d5: 'Sat',
+			d6: 'Sun',
+		};
+		//Event options
+		var eventTypes = {
+			"special-event": "fa-birthday-cake",
+			"anch": "fa-anchor"
+		}
+
+		$scope.iconFunction = function (type) {
+			if (eventTypes[type]) {
+				return "fa " + eventTypes[type];
+			} else {
+				return "fa fa-anchor";
+			}
+		}
+
+
+		calendarService.getEvents().then(function (events) {
+			$scope.events = events;
+		});
 	}
 
 	controller.$inject = deps;
