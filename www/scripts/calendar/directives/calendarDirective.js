@@ -17,7 +17,6 @@ module.exports = function(app) {
             //bindToController: true,
             template: require('./calendarDirective.html'),
             link: function(scope, element, attrs, calCtrl) {
-
                 calCtrl.init(element);
             }
         };

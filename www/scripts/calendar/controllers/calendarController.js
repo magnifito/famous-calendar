@@ -33,9 +33,21 @@ module.exports = function (app) {
 			var addItem = function (days, isOutsideMonth) {
 				date = $scope.currentDate.clone();
 				date.addDays(days, true);
+				var events = $scope.events;
+				var dayEvents = [];
+				if (events) {
+					for (var m = 0; m < events.length; m++) {
+						//2015-2-3
+						var formattedDate = date.format('{yyyy}-{M}-{d}');
+						if (events[m].start == formattedDate) {
+							dayEvents.push(events[m]);
+						}
+					}
+				}
 				dates.push({
 					date: date,
-					disabled: isOutsideMonth === true
+					disabled: isOutsideMonth === true,
+					events: dayEvents
 				});
 			};
 
@@ -70,15 +82,6 @@ module.exports = function (app) {
 			return dates;
 		};
 
-		function printDates(dates) {
-			var datesStr = "";
-			for (var i = 0; i < dates.length; i++) {
-				var date = dates[i].date.getDate();
-				datesStr += " " + i + ":" + date;
-			}
-			return datesStr;
-		}
-
 		/**
 		 * Updates the date array
 		 */
@@ -93,13 +96,6 @@ module.exports = function (app) {
 		};
 
 		//	SCOPE METHODS
-		/**
-		 * Select the current date
-		 */
-		$scope.selectDate = function (date) {
-			$scope.currentDate = date.clone();
-		};
-
 		/**
 		 * Go to the previous month
 		 */
@@ -216,7 +212,6 @@ module.exports = function (app) {
 				return "fa fa-anchor";
 			}
 		}
-
 
 		calendarService.getEvents().then(function (events) {
 			$scope.events = events;
